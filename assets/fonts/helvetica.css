@@ -1,0 +1,49 @@
+/* Helvetica (system) — body text and subtitles.
+   There are no Helvetica files in the project, so these faces point to the
+   Helvetica Neue installed on the device (macOS / iOS). Weight ranges map the
+   whole scale onto two cuts:
+   · 100–449 → Light  (running text)
+   · 450–1000 → Medium (subtitles, labels, navigation)
+   Devices without Helvetica Neue fall back to Helvetica / Arial (see --font). */
+
+@font-face {
+    font-family: 'Site Sans';
+    src: local('HelveticaNeue-Light'), local('Helvetica Neue Light'), local('Helvetica-Light'), local('Helvetica Light');
+    font-weight: 100 449;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Site Sans';
+    src: local('HelveticaNeue-LightItalic'), local('Helvetica Neue Light Italic');
+    font-weight: 100 449;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Site Sans';
+    src: local('HelveticaNeue-Medium'), local('Helvetica Neue Medium'), local('Helvetica-Bold');
+    font-weight: 450 1000;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Site Sans';
+    src: local('HelveticaNeue-MediumItalic'), local('Helvetica Neue Medium Italic');
+    font-weight: 450 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Regular, as a separate family so it never replaces Light elsewhere.
+   Used only where named explicitly (e.g. the "Selected projects" label). */
+@font-face {
+    font-family: 'Site Sans Regular';
+    src: local('HelveticaNeue'), local('Helvetica Neue'), local('Helvetica');
+    font-weight: 100 1000;
+    font-style: normal;
+    font-display: swap;
+}

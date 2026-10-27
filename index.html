@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fer´s 2026 — Portfolio</title>
+    <meta name="description"
+        content="Portfolio of Fer Ortega, brand and product designer specializing in branding, editorial and web design.">
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- ═══════════════════════ CUSTOM CURSOR ═══════════════════════ -->
+    <div class="custom-cursor" id="customCursor">
+        <svg width="20" height="20" viewBox="0 0 20 20">
+            <circle class="cursor-circle" cx="10" cy="10" r="8" fill="transparent" stroke="#1d1d1b"
+                stroke-width="2.7" />
+        </svg>
+    </div>
+
+    <!-- ═══════════════════════ INTRO VIDEO ═══════════════════════ -->
+    <div class="intro-overlay" id="introOverlay">
+        <video class="intro-video" id="introVideo" autoplay muted playsinline>
+            <source src="assets/videos/video_intro_portfolio_final.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo" aria-label="Go to home">
+            <svg class="nav-logo-svg" viewBox="0 0 92.7 96" fill="#ffffff">
+                <path
+                    d="M54.92,0c.66.29,1.92,1.29,1.92,2.04v34.32l.36.36h33.84c.07,0,.92.71,1.05.87,2.72,3.66-4.33,5.19-6.61,6.28-21.43,10.26-37.63,28.07-44.91,50.85l-1.49,1.27h-1.44c-.66-.29-1.92-1.29-1.92-2.04v-34.68H1.52c-1.14,0-1.82-2.45-1.38-3.54.6-1.47,4.9-2.64,6.46-3.38,18.41-8.71,33.08-22.81,41.64-41.4.75-1.63,3.59-9.72,4.15-10.25.31-.29.83-.34,1.09-.71h1.44Z" />
+            </svg>
+        </a>
+        <button class="nav-menu-btn" id="menuToggle" aria-label="Toggle menu">
+            <svg class="nav-menu-svg" viewBox="0 0 18 12" fill="#ffffff">
+                <path
+                    d="M0,11h0c0-.55.45-1,1-1h16c.55,0,1,.45,1,1h0c0,.55-.45,1-1,1H1c-.55,0-1-.45-1-1ZM0,6h0c0-.55.45-1,1-1h16c.55,0,1,.45,1,1h0c0,.55-.45,1-1,1H1c-.55,0-1-.45-1-1ZM0,1h0C0,.45.45,0,1,0h16c.55,0,1,.45,1,1h0c0,.55-.45,1-1,1H1c-.55,0-1-.45-1-1Z" />
+            </svg>
+        </button>
+    </nav>
+
+    <!-- ═══════════════════════ MENU OVERLAY ═══════════════════════ -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-overlay-backdrop" id="menuBackdrop"></div>
+        <div class="menu-overlay-panel" id="menuPanel">
+            <div class="menu-overlay-header">
+                <button class="nav-close-btn" id="menuClose" aria-label="Close menu">
+                    <svg class="nav-close-svg" viewBox="0 0 14 14" fill="none" stroke="#ffffff" stroke-width="2"
+                        stroke-linecap="round">
+                        <line x1="1" y1="1" x2="13" y2="13" />
+                        <line x1="13" y1="1" x2="1" y2="13" />
+                    </svg>
+                </button>
+            </div>
+            <div class="menu-overlay-content">
+                <nav class="menu-nav">
+                    <a href="#" class="menu-nav-link" data-index="01">Home</a>
+                    <a href="#works" class="menu-nav-link" data-index="02">Works</a>
+                    <a href="pages/about.html" class="menu-nav-link" data-index="04">About</a>
+                    <a href="#contact" class="menu-nav-link" data-index="05">Contact</a>
+                    <!-- Light / Dark theme switch -->
+                    <button type="button" class="theme-toggle" aria-pressed="false">
+                        <span class="theme-toggle-content theme-when-warm">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                                stroke-linecap="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="4" />
+                                <path
+                                    d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4" />
+                            </svg>
+                            Light
+                        </span>
+                        <span class="theme-toggle-content theme-when-cold">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="12" cy="12" r="8.5" />
+                                <circle cx="9.2" cy="9.6" r="1.7" />
+                                <circle cx="14.6" cy="14.2" r="2.3" />
+                                <circle cx="14.4" cy="7.6" r="0.9" />
+                            </svg>
+                            Dark
+                        </span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════ HERO SECTION ═══════════════════════ -->
+    <section class="hero" id="hero">
+        <!-- Background Wave Animation -->
+        <div class="hero-video-wrapper">
+            <canvas class="hero-wave-canvas" id="heroWaveCanvas"></canvas>
+            <div class="hero-image-trail" id="heroImageTrail"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-title-wrap">
+                <h1 class="hero-title">
+                    <span class="hero-tagline hero-line-1">Design dwells</span>
+                    <span class="hero-tagline hero-line-2">in <em class="hero-accent hero-rotator"
+                            id="heroRotator">liminality</em></span>
+                    <span class="hero-portfolio hero-line-3">Portfolio 2026</span>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ PROJECTS SECTION ═══════════════════════ -->
+    <section class="projects" id="works">
+        <!-- Pinned stage: the row of projects scrolls horizontally with the page scroll -->
+        <div class="projects-pin" id="projectsPin">
+            <div class="projects-track" id="projectsTrack">
+                <!-- Section header: label + a rule spanning the whole row -->
+                <header class="projects-header">
+                    <h2 class="projects-label">Selected projects</h2>
+                    <hr class="projects-rule">
+                </header>
+                <div class="projects-row">
+
+                    <!-- Project: Mail Metro Media -->
+                    <div class="project-card" id="project-mmm" data-color="#FF4444">
+                        <div class="project-bg"></div>
+                        <div class="project-content">
+                            <div class="project-visual" id="mmm-visual">
+                                <div class="project-icon-wrapper has-hover-video" data-project="mmm"
+                                    style="background: none; overflow: hidden;">
+                                    <img src="assets/img/MMM/merch/Slide 16_9 - 30.jpg" alt="Mail Metro Media"
+                                        class="project-img-static"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    <div class="project-hover">
+                                        <h3 class="project-hover-title">Mail Metro Media</h3>
+                                        <p class="project-hover-text">A rebrand built on the highlight, giving one of
+                                            London's media groups a single, modern voice.</p>
+                                        <span class="project-hover-meta">2026 · Rebranding</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project: Baiala (confidential — password protected) -->
+                    <div class="project-card is-confidential" id="project-baiala" data-color="#0F233B">
+                        <div class="project-bg"></div>
+                        <div class="project-content">
+                            <div class="project-visual" id="baiala-visual">
+                                <div class="project-icon-wrapper has-hover-video" data-project="baiala"
+                                    style="background: none; overflow: hidden;">
+                                    <img src="assets/img/Baiala/image_grande.jpg" alt="Baiala"
+                                        class="project-img-static"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    <span class="project-lock" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="5" y="11" width="14" height="9" rx="2" />
+                                            <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                                        </svg>
+                                        Confidential
+                                    </span>
+                                    <div class="project-hover">
+                                        <h3 class="project-hover-title">Baiala</h3>
+                                        <p class="project-hover-text">A beach restaurant in Calpe where classic European
+                                            elegance meets a simple, relaxed touch.</p>
+                                        <span class="project-hover-meta">2026 · Branding · Password protected</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project: Becher -->
+                    <div class="project-card" id="project-strobe" data-color="#2a2a2a">
+                        <div class="project-bg"></div>
+                        <div class="project-content">
+                            <div class="project-visual" id="becher-visual">
+                                <div class="project-icon-wrapper has-hover-video" data-project="strobe"
+                                    style="background: none; overflow: hidden;">
+                                    <img src="assets/img/becher/img_fullscreen.jpg" alt="Becher"
+                                        class="project-img-static"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    <span class="project-badge">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M8 2.5l2.5 6M16 2.5l-2.5 6" />
+                                            <circle cx="12" cy="14.5" r="6" />
+                                            <path
+                                                d="M12 11.5l.9 1.9 2.1.3-1.5 1.5.4 2.1-1.9-1-1.9 1 .4-2.1-1.5-1.5 2.1-.3z" />
+                                        </svg>
+                                        Exhibited · Museo Nacional de Artes Decorativas
+                                    </span>
+                                    <div class="project-hover">
+                                        <h3 class="project-hover-title">Becher</h3>
+                                        <p class="project-hover-text">An experimental publication tracing the cup as a
+                                            symbol across time.</p>
+                                        <span class="project-hover-meta">2025 · Editorial · Academic project</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project: Faro Santander -->
+                    <div class="project-card" id="project-faro" data-color="#7B61FF">
+                        <div class="project-bg"></div>
+                        <div class="project-content">
+                            <div class="project-visual" id="faro-visual">
+                                <div class="project-icon-wrapper has-hover-video" data-project="faro"
+                                    style="background: none; overflow: hidden;">
+                                    <img src="assets/img/Faro santander/medios impresos/image 106.jpg"
+                                        alt="Faro Santander" class="project-img-static"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    <div class="project-hover">
+                                        <h3 class="project-hover-title">Faro Santander</h3>
+                                        <p class="project-hover-text">A brand built on light for Banco Santander's
+                                            foundation and its new museum.</p>
+                                        <span class="project-hover-meta">2026 · Branding</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project: Dentcob -->
+                    <div class="project-card" id="project-nordika" data-color="#4a3370">
+                        <div class="project-bg"></div>
+                        <div class="project-content">
+                            <div class="project-visual" id="nordika-visual">
+                                <div class="project-icon-wrapper has-hover-video" data-project="nordika"
+                                    style="background: none; overflow: hidden;">
+                                    <img src="assets/img/dentcob/Mockupdentcob.jpg" alt="Dentcob"
+                                        class="project-img-static"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    <div class="project-hover">
+                                        <h3 class="project-hover-title">Dentcob</h3>
+                                        <p class="project-hover-text">A clear, trustworthy digital presence for a dental
+                                            clinic in Madrid.</p>
+                                        <span class="project-hover-meta">2026 · Web design · Freelance</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project: Cesida -->
+                    <div class="project-card" id="project-forma" data-color="#6b7b6a">
+                        <div class="project-bg"></div>
+                        <div class="project-content">
+                            <div class="project-visual" id="cesida-visual">
+                                <div class="project-icon-wrapper has-hover-video" data-project="forma"
+                                    style="background: none; overflow: hidden;">
+                                    <img src="assets/img/cesida/mockup_landing.jpg" alt="Cesida"
+                                        class="project-img-static"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    <div class="project-hover">
+                                        <h3 class="project-hover-title">Cesida</h3>
+                                        <p class="project-hover-text">A full rebrand to break the stigma around people
+                                            living with HIV.</p>
+                                        <span class="project-hover-meta">2025 · Rebranding · Academic project</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project: Personal Projects -->
+                    <div class="project-card" id="project-personal" data-color="#1a1a2e">
+                        <div class="project-bg"></div>
+                        <div class="project-content">
+                            <div class="project-visual" id="personal-visual">
+                                <a href="pages/archive.html"
+                                    class="project-icon-wrapper has-hover-video archive-mist-card"
+                                    style="overflow: hidden; display: block;">
+                                    <canvas class="project-img-static archive-mist" id="archiveMist"
+                                        aria-hidden="true"></canvas>
+                                    <div class="project-hover">
+                                        <h3 class="project-hover-title">Archive</h3>
+                                        <p class="project-hover-text">Personal explorations in illustration, 3D and
+                                            motion,
+                                            driven by curiosity.</p>
+                                        <span class="project-hover-meta">2023–2026 · Personal projects</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ PROJECT LOCK (confidential projects) ═══════════════════════ -->
+    <div class="project-lock-overlay" id="projectLock" aria-hidden="true">
+        <div class="project-lock-backdrop" id="projectLockBackdrop"></div>
+        <form class="project-lock-panel" id="projectLockForm" autocomplete="off" role="dialog" aria-modal="true"
+            aria-labelledby="projectLockTitle">
+            <span class="project-lock-tag">Confidential project</span>
+            <h2 class="project-lock-title" id="projectLockTitle">Project</h2>
+            <p class="project-lock-text">This project is under confidentiality. Enter the password to view it.</p>
+            <label class="project-lock-field">
+                <span class="project-lock-label">Password</span>
+                <input type="password" id="projectLockInput" class="project-lock-input" required>
+            </label>
+            <p class="project-lock-error" id="projectLockError" role="alert" hidden>Incorrect password. Try again.</p>
+            <div class="project-lock-actions">
+                <button type="button" class="project-lock-cancel" id="projectLockCancel">Cancel</button>
+                <button type="submit" class="project-lock-submit">
+                    View project
+                    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                        <path d="M8 24H40M40 24L28 12M40 24L28 36" stroke="currentColor" stroke-width="3.5"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- ═══════════════════════ PROJECT DETAIL OVERLAY ═══════════════════════ -->
+    <!-- 12-column grid layout: meta (cols 1–3) · content (cols 5–12) -->
+    <div class="project-detail-overlay" id="projectDetailOverlay">
+        <article class="project-detail-panel" id="projectDetailPanel">
+
+            <!-- Sticky Header -->
+            <header class="project-detail-header">
+                <span class="project-detail-tag" id="projectDetailTag">Project</span>
+                <button class="project-detail-close" id="projectDetailClose" aria-label="Close project detail">
+                    <svg class="nav-close-svg" viewBox="0 0 14 14" fill="none" stroke="#000000" stroke-width="2"
+                        stroke-linecap="round">
+                        <line x1="1" y1="1" x2="13" y2="13" />
+                        <line x1="13" y1="1" x2="1" y2="13" />
+                    </svg>
+                </button>
+            </header>
+
+            <!-- Cover: full-screen image (or colour block) that eases away on scroll -->
+            <section class="pd-cover" id="projectDetailCover" aria-hidden="true">
+                <div class="pd-cover-media" id="projectDetailCoverMedia"></div>
+            </section>
+
+            <!-- Intro: title + metadata + description -->
+            <section class="pd-intro">
+                <div class="pd-grid">
+                    <h1 class="pd-title" id="projectDetailTitle">Project</h1>
+                    <hr class="pd-rule">
+                    <!-- Recognition badge (filled by JS for projects with an `award`) -->
+                    <p class="pd-award" id="projectDetailAward" hidden>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M8 2.5l2.5 6M16 2.5l-2.5 6" />
+                            <circle cx="12" cy="14.5" r="6" />
+                            <path d="M12 11.5l.9 1.9 2.1.3-1.5 1.5.4 2.1-1.9-1-1.9 1 .4-2.1-1.5-1.5 2.1-.3z" />
+                        </svg>
+                        <span id="projectDetailAwardText"></span>
+                    </p>
+                </div>
+                <div class="pd-grid">
+                    <aside class="pd-meta">
+                        <dl class="pd-meta-list">
+                            <div class="pd-meta-item">
+                                <dt>Category:</dt>
+                                <dd id="projectDetailCategory">—</dd>
+                            </div>
+                            <div class="pd-meta-item">
+                                <dt>Year:</dt>
+                                <dd id="projectDetailYear">—</dd>
+                            </div>
+                            <div class="pd-meta-item">
+                                <dt>Role:</dt>
+                                <dd id="projectDetailRole">—</dd>
+                            </div>
+                            <div class="pd-meta-item" id="projectDetailContextItem" hidden>
+                                <dt>Context:</dt>
+                                <dd id="projectDetailContext">—</dd>
+                            </div>
+                            <div class="pd-meta-item">
+                                <dt>Tools:</dt>
+                                <dd id="projectDetailTools">—</dd>
+                            </div>
+                        </dl>
+                        <a class="pd-visit-link" id="projectDetailLink" href="javascript:void(0)" target="_blank"
+                            rel="noopener" hidden>Visit Website</a>
+                    </aside>
+                    <div class="pd-description">
+                        <p id="projectDetailDescription"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gallery: glued images on a 12-column grid with the description spread
+                 in short paragraphs; rows generated by JS -->
+            <section class="pd-gallery" id="projectDetailGallery" aria-label="Project images">
+            </section>
+
+            <!-- Next Project (orange band) -->
+            <section class="pd-next" id="projectDetailNext">
+                <!-- Two boxes: label + name on the left, arrow on the right (aligned to the name) -->
+                <a class="pd-next-link" id="projectDetailNextLink" href="javascript:void(0)">
+                    <span class="pd-next-text">
+                        <span class="pd-next-label">Next Project</span>
+                        <span class="pd-next-name" id="projectDetailNextName">Next</span>
+                    </span>
+                    <span class="pd-next-arrow-box" aria-hidden="true">
+                        <svg class="pd-next-arrow" viewBox="0 0 48 48" fill="none">
+                            <path d="M8 24H40M40 24L28 12M40 24L28 36" stroke="currentColor" stroke-width="3"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </a>
+            </section>
+
+        </article>
+    </div>
+
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+    <footer class="footer" id="contact">
+        <div class="footer-top">
+            <div class="footer-col footer-brand">
+                <!-- logo web.svg, inline so it can be coloured orange -->
+                <svg class="footer-logo-mark" viewBox="0 0 92.7 96" aria-hidden="true">
+                    <path
+                        d="M54.92,0c.66.29,1.92,1.29,1.92,2.04v34.32l.36.36h33.84c.07,0,.92.71,1.05.87,2.72,3.66-4.33,5.19-6.61,6.28-21.43,10.26-37.63,28.07-44.91,50.85l-1.49,1.27h-1.44c-.66-.29-1.92-1.29-1.92-2.04v-34.68H1.52c-1.14,0-1.82-2.45-1.38-3.54.6-1.47,4.9-2.64,6.46-3.38,18.41-8.71,33.08-22.81,41.64-41.4.75-1.63,3.59-9.72,4.15-10.25.31-.29.83-.34,1.09-.71h1.44Z" />
+                </svg>
+                <span class="footer-logo">Portfolio 2026</span>
+            </div>
+            <div class="footer-col">
+                <span class="footer-label">Contact</span>
+                <a href="mailto:ferortegadelarosa@gmail.com" class="footer-link">ferortegadelarosa@gmail.com</a>
+                <a href="tel:+34684396322" class="footer-link">+34 684 396 322</a>
+            </div>
+            <div class="footer-col">
+                <span class="footer-label">Follow me</span>
+                <a href="https://www.instagram.com/fer.roseroseroseroseroserosero/" class="footer-link"
+                    target="_blank">Instagram</a>
+                <a href="https://www.linkedin.com/feed/" class="footer-link" target="_blank">LinkedIn</a>
+                <a href="https://x.com/ElBosco17" class="footer-link" target="_blank">Twitter / X</a>
+            </div>
+        </div>
+        <!-- Luminous orange dome with the hero's dot waves masked inside; reacts to the cursor -->
+        <div class="footer-watermark">
+            <canvas class="footer-dome" id="footerDome" aria-hidden="true"></canvas>
+        </div>
+    </footer>
+
+    <script src="assets/js/archive-mist.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

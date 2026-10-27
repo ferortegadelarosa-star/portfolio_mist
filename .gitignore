@@ -1,0 +1,12 @@
+# Local backups and originals (not part of the website)
+_saved/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+
+# Logs / temp
+*.log
+Thumbs.db

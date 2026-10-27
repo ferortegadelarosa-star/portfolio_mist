@@ -1,0 +1,2174 @@
+/* ═══════════════════════════════════════════════════════════════
+   HRZNS Studio™ — Framer Template Replica
+   Design System & Complete Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('assets/fonts/Fauces/fraunces.css');
+@import url('assets/fonts/helvetica.css');
+
+/* ─── Intro Video Overlay ──────────────────────────────────── */
+.intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #FFFFFF; /* Pure white behind the intro video */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .6s ease;
+}
+
+.intro-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.intro-overlay.hidden {
+    display: none;
+}
+
+.intro-video {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+}
+
+body.intro-active {
+    overflow: hidden;
+}
+
+/* ─── Reset & Base ─────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Theme tokens — Warm (day). Cold (night) overrides them below. */
+    --paper: #F4EEED;          /* backgrounds */
+    --paper-rgb: 244, 238, 237;
+    --ink: #000000;            /* text, icons, lines */
+    --ink-rgb: 0, 0, 0;
+    --surface: #FFFFFF;        /* white cards and panels */
+    --bg: var(--paper);
+    --bg-dark: var(--paper);
+    --text-primary: var(--ink);
+    --text-secondary: var(--ink);
+    --text-label: var(--ink);
+    --border: rgba(var(--ink-rgb), 0.12);
+    --font: 'Site Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /* body: Light · subtitles: Medium */
+    --font-title: 'Fraunces', Georgia, 'Times New Roman', serif;
+    /* titles only */
+    --nav-height: 64px;
+    --card-width: clamp(280px, 30vw, 440px);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --ease-soft: cubic-bezier(0.33, 0, 0.12, 1);
+    /* gentle start, long soft deceleration */
+}
+
+/* ─── Cold (night) theme ───────────────────────────────────── */
+/* Black and white swap: earth-black backgrounds, light text. Orange stays. */
+html[data-theme="cold"] {
+    --paper: #1D191A;
+    --paper-rgb: 29, 25, 26;
+    --ink: #F4EEED;
+    --ink-rgb: 244, 238, 237;
+    --surface: #2A2425;
+    color-scheme: dark;
+}
+
+/* Black circle icons drawn as SVG data URIs: flip them to light */
+html[data-theme="cold"] .cursor-circle {
+    stroke: var(--ink);
+}
+
+html[data-theme="cold"] .menu-nav-link::before,
+html[data-theme="cold"] .footer-link::before,
+html[data-theme="cold"] .about-contact-link::before {
+    filter: invert(1);
+}
+
+/* Smooth colour change while switching themes */
+html.theme-switching,
+html.theme-switching * {
+    transition: background-color 0.6s var(--ease-soft), color 0.6s var(--ease-soft),
+        border-color 0.6s var(--ease-soft), fill 0.6s var(--ease-soft), stroke 0.6s var(--ease-soft) !important;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: none;
+}
+
+html:active {
+    cursor: none;
+}
+
+/* ─── Custom Cursor ────────────────────────────────────────── */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-70%, -70%);
+    will-change: transform;
+}
+
+.cursor-circle {
+    transition: fill 0.3s ease, stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.custom-cursor.active .cursor-circle {
+    fill: var(--ink);
+    stroke-width: 0;
+}
+
+.custom-cursor.cursor-light .cursor-circle {
+    stroke: var(--ink);
+}
+
+.custom-cursor.cursor-light.active .cursor-circle {
+    fill: var(--ink);
+    stroke-width: 0;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.3s ease;
+    cursor: inherit;
+}
+
+a:hover {
+    opacity: 0.7;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: inherit;
+    font-family: inherit;
+    color: inherit;
+}
+
+/* ─── Navbar ───────────────────────────────────────────────── */
+.navbar {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 40px;
+    width: var(--card-width);
+    background: var(--paper);
+    border: 1px solid rgba(var(--ink-rgb), 0.12);
+    border-radius: 100px;
+    transition: transform 0.5s var(--ease-out), opacity 0.5s var(--ease-out), box-shadow 0.4s ease, background 0.4s ease;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.navbar.scrolled {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Same palette when over Works / projects section */
+.navbar.nav-inverted {
+    background: var(--paper);
+}
+
+.nav-logo-svg,
+.nav-menu-svg {
+    fill: var(--ink);
+}
+
+.nav-close-svg {
+    stroke: var(--ink);
+}
+
+/* Logo SVG */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.nav-logo:hover {
+    opacity: 1;
+}
+
+.nav-logo-svg {
+    width: 18px;
+    height: 18px;
+    transition: fill 0.5s var(--ease-soft);
+}
+
+/* Hover: the logo eases from black to orange, no rotation */
+.nav-logo:hover .nav-logo-svg {
+    fill: #FF6A1F;
+}
+
+/* Menu icon button */
+.nav-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-menu-btn:hover {
+    opacity: 0.85;
+    transform: scale(1.1);
+}
+
+/* Menu nav SVG icon */
+.nav-menu-svg {
+    width: 18px;
+    height: 12px;
+    transition: fill 0.5s var(--ease-soft);
+}
+
+/* Hover: keeps the scale-up and eases from black to orange */
+.nav-menu-btn:hover .nav-menu-svg {
+    fill: #FF6A1F;
+}
+
+.menu-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+/* ─── Menu Dropdown ────────────────────────────────────────── */
+/* Small dropdown right under the nav pill, same width and style.
+   The menu button toggles it; no backdrop, no page lock. */
+.menu-overlay {
+    position: fixed;
+    top: calc(18px + 40px + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--card-width);
+    z-index: 1001;
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s linear 0.5s;
+}
+
+.menu-overlay.active {
+    pointer-events: all;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.menu-overlay-backdrop {
+    display: none;
+}
+
+.menu-overlay-panel {
+    position: relative;
+    width: 100%;
+    padding: 6px 0;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.35s ease, transform 0.5s var(--ease-out);
+}
+
+.menu-overlay.active .menu-overlay-panel {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.menu-overlay-header {
+    display: none;
+}
+
+.nav-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--text-primary);
+    transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+.nav-close-btn:hover {
+    opacity: 0.7;
+    transform: rotate(180deg);
+}
+
+.nav-close-svg {
+    width: 16px;
+    height: 16px;
+}
+
+.menu-overlay-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ─── Warm / Cold theme toggle (inside the menu dropdown) ─── */
+/* Pill with an inner shadow for depth. On hover, an orange → white wash
+   (like the rail drops) fills it from left to right. */
+.theme-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px 6px 10px;
+    border-radius: 100px;
+    /* Liquid glass: translucent body that blurs and saturates what's behind,
+       a thin light rim, a specular sheen on top and a soft outer shadow */
+    background: rgba(var(--paper-rgb), 0.28);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: var(--ink);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.18),
+        0 6px 18px rgba(0, 0, 0, 0.12),
+        0 1px 3px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    isolation: isolate;
+    opacity: 0;
+    transition: color 0.45s var(--ease-soft), box-shadow 0.45s var(--ease-soft);
+}
+
+/* Curved specular reflection across the top half of the glass */
+.theme-toggle::after {
+    content: '';
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 1px;
+    height: 52%;
+    z-index: -1;
+    border-radius: 100px 100px 60% 60% / 100px 100px 40% 40%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    pointer-events: none;
+}
+
+html[data-theme="cold"] .theme-toggle {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+        0 6px 18px rgba(0, 0, 0, 0.35),
+        0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme="cold"] .theme-toggle::after {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+}
+
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1; /* under the content; drawn before ::after, so the sheen glazes it */
+    background: linear-gradient(to right, #FF6A1F 0%, #FF6A1F 62%, #FFB27F 82%, #FFFFFF 100%);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.7s var(--ease-soft);
+}
+
+.theme-toggle:hover::before,
+.theme-toggle:focus-visible::before {
+    transform: scaleX(1);
+}
+
+/* Cold: the wash runs right → left, from white into orange */
+html[data-theme="cold"] .theme-toggle::before {
+    background: linear-gradient(to left, #FF6A1F 0%, #FF6A1F 62%, #FFB27F 82%, #FFFFFF 100%);
+    transform-origin: right center;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+    color: #FFFFFF;
+}
+
+.theme-toggle-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.theme-toggle svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* The button shows the mode you can switch TO:
+   in light mode → moon + "Dark"; in dark mode → sun + "Light" */
+.theme-when-warm,
+html[data-theme="cold"] .theme-when-cold {
+    display: none;
+}
+
+html[data-theme="cold"] .theme-when-warm {
+    display: inline-flex;
+}
+
+.menu-overlay.active .theme-toggle {
+    animation: menuLinkIn 0.45s var(--ease-out) 0.25s forwards;
+}
+
+/* Links in a single row under the nav, no background */
+.menu-nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 28px;
+}
+
+.menu-nav-link {
+    position: relative;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.7;
+    color: var(--text-primary);
+    opacity: 0;
+    transition: transform 0.4s var(--ease-out), color 0.3s ease;
+}
+
+/* Hover: the circle appears on the left and the word nudges right,
+   without pushing its neighbours */
+.menu-nav-link::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    width: 0.55em;
+    height: 0.55em;
+    transform: translateY(-50%);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23000000' stroke-width='2.5'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-nav-link:hover::before {
+    opacity: 1;
+}
+
+.menu-nav-link:hover {
+    transform: translateX(8px);
+}
+
+.menu-overlay.active .menu-nav-link {
+    animation: menuLinkIn 0.45s var(--ease-out) forwards;
+}
+
+.menu-overlay.active .menu-nav-link:nth-child(2) {
+    animation-delay: 0.05s;
+}
+
+.menu-overlay.active .menu-nav-link:nth-child(3) {
+    animation-delay: 0.1s;
+}
+
+.menu-overlay.active .menu-nav-link:nth-child(4) {
+    animation-delay: 0.15s;
+}
+
+.menu-overlay.active .menu-nav-link:nth-child(5) {
+    animation-delay: 0.2s;
+}
+
+@keyframes menuLinkIn {
+    from {
+        opacity: 0;
+        translate: 0 6px;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+.menu-details {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s var(--ease-out) 0.35s, transform 0.5s var(--ease-out) 0.35s;
+}
+
+.menu-overlay.active .menu-details {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.menu-detail-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu-detail-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.menu-detail-link {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* ─── Hero Section ─────────────────────────────────────────── */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--nav-height) 40px;
+    background: var(--paper);
+    /* Sticks under the projects so the first one slides over it like the rest */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero-video-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero-wave-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.hero-image-trail {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.trail-image {
+    position: absolute;
+    width: 200px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 0;
+    pointer-events: none;
+    opacity: 0;
+    animation: trailFadeIn 0.3s ease forwards, trailFadeOut 0.6s ease 1.5s forwards;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    will-change: transform, opacity;
+}
+
+@keyframes trailFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes trailFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    pointer-events: none;
+}
+
+/* Centered over the sphere: the tagline flows as one large paragraph */
+.hero-title-wrap {
+    position: relative;
+    text-align: center;
+}
+
+.hero-title {
+    font-family: var(--font-title);
+    /* Font size lives here so the em-based width wraps it into a paragraph */
+    font-size: clamp(44px, 7.4vw, 120px);
+    max-width: min(92vw, 9.5em);
+    margin: 0 auto;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    color: var(--ink);
+}
+
+.hero-tagline {
+    display: block;
+    /* One line each: the rotating word never re-flows the paragraph */
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 1.02;
+    color: var(--ink);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroReveal 1s var(--ease-out) forwards;
+}
+
+.hero-accent {
+    color: var(--ink);
+    font-style: italic;
+}
+
+/* Rotating word: letters sweep up from below, staggered left → right.
+   The width eases between words so the centered line re-flows smoothly;
+   the clip hides letters below/above the line while they travel. */
+.hero-rotator {
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: bottom;
+    transition: width 1.4s var(--ease-soft);
+    clip-path: inset(-0.2em -50vw -0.3em -0.2em);
+}
+
+.rot-word {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.rot-word.is-entering {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.rot-char {
+    display: inline-block;
+    transition:
+        transform 1.3s var(--ease-soft),
+        opacity 1s var(--ease-soft),
+        filter 1s var(--ease-soft);
+    transition-delay: calc(var(--i) * 55ms);
+}
+
+/* Short travel + fade + slight blur: letters emerge rather than jump */
+.rot-word.is-before .rot-char {
+    transform: translateY(65%);
+    opacity: 0;
+    filter: blur(6px);
+}
+
+.rot-word.is-out .rot-char {
+    transform: translateY(-65%);
+    opacity: 0;
+    filter: blur(6px);
+}
+
+.hero-portfolio {
+    display: block;
+    margin-top: clamp(20px, 2.5vw, 36px);
+    letter-spacing: 0;
+    font-size: clamp(15px, 1.4vw, 20px);
+    /* Fraunces Regular: a touch heavier than the Light title */
+    font-family: 'Fraunces Regular', var(--font-title);
+    font-weight: 400;
+    color: var(--ink);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroReveal 1s var(--ease-out) forwards;
+}
+
+.hero-line-1 {
+    animation-delay: 0.2s;
+}
+
+.hero-line-2 {
+    animation-delay: 0.4s;
+}
+
+.hero-line-3 {
+    animation-delay: 0.6s;
+}
+
+.hero-line-2 sup {
+    font-size: 0.3em;
+    vertical-align: super;
+    font-weight: 500;
+}
+
+@keyframes heroReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-right {
+    position: absolute;
+    bottom: 80px;
+    left: 32px;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    opacity: 0;
+    animation: fadeInUp 0.8s var(--ease-out) 0.6s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-right {
+    transform: translateY(30px);
+}
+
+.hero-icon-card {
+    width: 120px;
+    height: 140px;
+    background: var(--bg);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+}
+
+.hero-icon-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-description {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+    opacity: 0.9;
+}
+
+/* ─── Projects Section ─────────────────────────────────────── */
+/* One section: a pinned stage where the row of projects scrolls horizontally
+   with the page scroll. JS sets the section height (100vh + row overflow)
+   and moves the track; past the last project the page continues to the footer. */
+.projects {
+    position: relative;
+    z-index: 5;
+    /* Transparent: the covering edge is the sliding stage below, so the edge,
+       its shadow and the top light all move together with the same inertia */
+}
+
+.projects-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background: var(--bg-dark);
+    /* Soft shadow cast upwards onto the hero: the stage reads as a layer
+       sliding over it */
+    box-shadow:
+        0 -10px 24px -8px rgba(var(--ink-rgb), 0.08),
+        0 -36px 80px -24px rgba(var(--ink-rgb), 0.12);
+}
+
+/* Top light: a thin white-orange line across the box's top edge with a warm
+   glow below it, behind the projects. It sweeps in left → right: JS sets
+   --top-reveal from 0 (box entering) to 1 (end of the page, at the footer). */
+.projects-pin::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 260px;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(to right, rgba(255, 120, 40, 0.95), rgba(255, 250, 240, 1) 50%, rgba(255, 120, 40, 0.95)) top / 100% 3px no-repeat,
+        linear-gradient(to bottom, rgba(255, 150, 60, 0.55), rgba(255, 170, 90, 0)) top / 100% 40px no-repeat,
+        linear-gradient(to bottom, rgba(255, 150, 70, 0.5), rgba(255, 185, 110, 0.22) 35%, rgba(255, 210, 160, 0.08) 65%, rgba(255, 220, 180, 0) 100%);
+    /* Soft leading edge: fully revealed up to the front, fading over 20% after it */
+    -webkit-mask-image: linear-gradient(to right, #000 calc(var(--top-reveal, 0) * 120% - 20%), transparent calc(var(--top-reveal, 0) * 120%));
+    mask-image: linear-gradient(to right, #000 calc(var(--top-reveal, 0) * 120% - 20%), transparent calc(var(--top-reveal, 0) * 120%));
+}
+
+/* Moves horizontally as one piece: header on top, row of cards below */
+.projects-track {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    padding: 0 40px;
+    will-change: transform;
+}
+
+/* "Selected projects" + a rule spanning the whole row */
+.projects-header {
+    position: relative;
+    width: 100%;
+    margin-bottom: clamp(28px, 3vw, 48px);
+}
+
+.projects-label {
+    font-family: 'Site Sans Regular', var(--font);
+    font-size: clamp(14px, 1.1vw, 17px);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--ink);
+}
+
+.projects-rule {
+    width: 100%;
+    height: 0;
+    margin: 14px 0 0;
+    border: none;
+    border-top: 2px solid rgba(var(--ink-rgb), 0.3);
+}
+
+/* Rail dots: one per project, riding on the rule. They start grouped at the
+   beginning and, with the scroll, each one locks above its card's top-left
+   corner. JS creates them and sets their position.
+   Each dot is a liquid drop: a silhouette (SVG mask) where the core swells out
+   of the rail through wide, organic fillets, filled with a gradient that runs
+   rule → white → orange → white → rule on both sides. A separate core layer
+   keeps the orange on top when dots are grouped. */
+.projects-rail {
+    --dot: 18px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1px; /* Centre of the 2px rule */
+    height: 0;
+    pointer-events: none;
+    /* Keep the drops' tails within the rule's start and end */
+    clip-path: inset(-20px 0 -20px 0);
+}
+
+.rail-drop,
+.rail-core {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform;
+}
+
+.rail-drop {
+    width: calc(var(--dot) * 7);
+    height: var(--dot);
+    margin: calc(var(--dot) / -2) 0 0 calc(var(--dot) * -3.5);
+    /* Clear at both ends so the real rule shows through: orange → white → rule */
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0) 14%,
+            #FFFFFF 30%,
+            #FF6A1F 43%,
+            #FF6A1F 57%,
+            #FFFFFF 70%,
+            rgba(255, 255, 255, 0) 86%,
+            rgba(255, 255, 255, 0) 100%);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 20' preserveAspectRatio='none'%3E%3Cpath d='M0 8.3 L26 8.3 C46 8.3 55 7.2 61.8 4.26 A10 10 0 0 1 78.2 4.26 C85 7.2 94 8.3 114 8.3 L140 8.3 L140 11.7 L114 11.7 C94 11.7 85 12.8 78.2 15.74 A10 10 0 0 1 61.8 15.74 C55 12.8 46 11.7 26 11.7 L0 11.7 Z' fill='black'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 20' preserveAspectRatio='none'%3E%3Cpath d='M0 8.3 L26 8.3 C46 8.3 55 7.2 61.8 4.26 A10 10 0 0 1 78.2 4.26 C85 7.2 94 8.3 114 8.3 L140 8.3 L140 11.7 L114 11.7 C94 11.7 85 12.8 78.2 15.74 A10 10 0 0 1 61.8 15.74 C55 12.8 46 11.7 26 11.7 L0 11.7 Z' fill='black'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+
+.rail-core {
+    width: var(--dot);
+    height: var(--dot);
+    margin: calc(var(--dot) / -2) 0 0 calc(var(--dot) / -2);
+    border-radius: 50%;
+    /* Flat, solid orange: the gradient lives only between rail and circle */
+    background: #FF6A1F;
+}
+
+.projects-row {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(24px, 3vw, 48px);
+}
+
+.project-card {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(340px, 52vw, 960px);
+}
+
+.project-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+.project-content {
+    position: relative;
+    z-index: 2;
+}
+
+.project-visual {
+    width: 100%;
+}
+
+.project-icon-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 10 / 7;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.94) translateY(24px);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+
+.project-card.visible .project-icon-wrapper {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Hover card: a folder-like panel that rises from the bottom over 40% of the
+   image height, full width, with rounded top corners and a tab near the top
+   right. Title → brief summary → year · type, revealed in sequence. */
+.project-hover {
+    --tab-width: 14%;
+    /* Tab width relative to the panel */
+    --tab-right: 4.5%;
+    /* Distance from the right edge */
+    --tab-ratio: 220 / 50;
+    /* Tab proportions (width / height) */
+    --panel-radius: 12px;
+    /* Top corners of the panel */
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(20px, 2.4vw, 36px);
+    background: var(--surface);
+    color: var(--ink);
+    text-align: left;
+    border-radius: var(--panel-radius) var(--panel-radius) 0 0;
+    /* Hidden below the card, tab included */
+    transform: translateY(125%);
+    transition: transform 0.9s var(--ease-soft);
+    pointer-events: none;
+}
+
+/* Folder tab: same solid white, cut to shape by an SVG mask */
+.project-hover::before {
+    content: '';
+    position: absolute;
+    right: var(--tab-right);
+    bottom: calc(100% - 1px);
+    width: var(--tab-width);
+    aspect-ratio: var(--tab-ratio);
+    background: inherit;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 50' preserveAspectRatio='none'%3E%3Cpath d='M0 50 C10 50 16 47 21 39 L34 13 C39 4 45 0 56 0 L198 0 C208 0 213 5 213 15 L213 41 C213 47 216 50 220 50 Z' fill='black'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 50' preserveAspectRatio='none'%3E%3Cpath d='M0 50 C10 50 16 47 21 39 L34 13 C39 4 45 0 56 0 L198 0 C208 0 213 5 213 15 L213 41 C213 47 216 50 220 50 Z' fill='black'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+
+.project-hover>* {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.6s var(--ease-soft), transform 0.8s var(--ease-soft);
+}
+
+.project-hover-title {
+    font-family: var(--font-title); /* Fraunces Light */
+    font-size: clamp(28px, 2.9vw, 48px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    /* Sits at the top of the panel; the summary + meta stay at the bottom */
+    margin-bottom: auto;
+    padding-bottom: clamp(12px, 1.4vw, 20px);
+}
+
+.project-hover-text {
+    max-width: 46ch;
+    /* Balanced lines: the last word never ends up alone on its own line */
+    text-wrap: pretty;
+    font-size: clamp(14px, 1.05vw, 17px);
+    line-height: 1.45;
+    margin-bottom: 6px;
+    /* Summary and year · type read as one block */
+}
+
+.project-hover-meta {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(var(--ink-rgb), 0.6);
+}
+
+.project-icon-wrapper:hover .project-hover,
+.project-icon-wrapper:focus-visible .project-hover {
+    transform: translateY(0);
+}
+
+.project-icon-wrapper:hover .project-hover>*,
+.project-icon-wrapper:focus-visible .project-hover>* {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-icon-wrapper:hover .project-hover-title {
+    transition-delay: 0.18s;
+}
+
+.project-icon-wrapper:hover .project-hover-text {
+    transition-delay: 0.26s;
+}
+
+.project-icon-wrapper:hover .project-hover-meta {
+    transition-delay: 0.34s;
+}
+
+/* ─── Confidential projects ────────────────────────────────── */
+/* Card: image blurred behind a lock label until the password is entered */
+.project-card.is-confidential .project-img-static {
+    filter: blur(18px) saturate(0.9);
+    transform: scale(1.12);
+    transition: filter 0.8s var(--ease-soft), transform 0.8s var(--ease-soft);
+}
+
+.project-card.is-confidential.is-unlocked .project-img-static {
+    filter: none;
+    transform: none;
+}
+
+.project-lock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 100px;
+    background: rgba(var(--paper-rgb), 0.92);
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 500;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease-soft);
+}
+
+.project-lock svg {
+    width: 16px;
+    height: 16px;
+}
+
+.project-card.is-unlocked .project-lock,
+.project-icon-wrapper:hover .project-lock {
+    opacity: 0;
+}
+
+/* Password dialog */
+.project-lock-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-soft), visibility 0s 0.45s;
+}
+
+.project-lock-overlay.active {
+    pointer-events: all;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.45s var(--ease-soft), visibility 0s 0s;
+}
+
+.project-lock-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--paper-rgb), 0.7);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+}
+
+.project-lock-panel {
+    position: relative;
+    width: min(440px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 36px 32px 28px;
+    background: var(--surface);
+    border-radius: 26px;
+    transform: translateY(16px);
+    transition: transform 0.6s var(--ease-soft);
+}
+
+.project-lock-overlay.active .project-lock-panel {
+    transform: translateY(0);
+}
+
+.project-lock-overlay.is-wrong .project-lock-panel {
+    animation: lockShake 0.45s var(--ease-out);
+}
+
+@keyframes lockShake {
+    20%, 60% { translate: -8px 0; }
+    40%, 80% { translate: 8px 0; }
+}
+
+.project-lock-tag {
+    font-size: 13px;
+    font-weight: 500;
+    color: #FF6A1F;
+}
+
+.project-lock-title {
+    font-family: var(--font-title);
+    font-size: clamp(30px, 3vw, 40px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.project-lock-text {
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(var(--ink-rgb), 0.7);
+}
+
+.project-lock-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.project-lock-label {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.project-lock-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid rgba(var(--ink-rgb), 0.15);
+    border-radius: 14px;
+    background: var(--paper);
+    font: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.project-lock-input:focus {
+    border-color: #FF6A1F;
+}
+
+.project-lock-error {
+    font-size: 13px;
+    color: #D9480F;
+}
+
+.project-lock-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.project-lock-cancel {
+    font-size: 14px;
+    color: rgba(var(--ink-rgb), 0.6);
+    transition: color 0.3s ease;
+}
+
+.project-lock-cancel:hover {
+    color: var(--ink);
+}
+
+.project-lock-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 100px;
+    background: #FF6A1F;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.project-lock-submit svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.5s var(--ease-out);
+}
+
+.project-lock-submit:hover svg {
+    transform: translateX(4px);
+}
+
+/* ─── Project Detail Overlay ───────────────────────────────── */
+/* Layout inspired by howardphillips.design: 12-column grid,
+   metadata in columns 1–3, content in columns 5–12,
+   asymmetric horizontal image placement. */
+.project-detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out), visibility 0s 0.5s;
+}
+
+.project-detail-overlay.active {
+    pointer-events: all;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s var(--ease-out), visibility 0s 0s;
+}
+
+.project-detail-panel {
+    --pd-gutter: 40px;
+    --pd-gap: 20px;
+    --pd-media-ratio: 3 / 2;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    color: var(--text-primary);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: translateY(100%);
+    transition: transform 0.8s var(--ease-out);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--ink-rgb), 0.15) transparent;
+}
+
+.project-detail-overlay.active .project-detail-panel {
+    transform: translateY(0);
+}
+
+/* Sticky Header */
+.project-detail-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--nav-height);
+    padding: 0 var(--pd-gutter);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.45s var(--ease-soft), border-color 0.45s var(--ease-soft);
+}
+
+/* Transparent (white text) while it sits over the full-screen cover;
+   JS removes the class once the cover has scrolled away */
+.project-detail-header.is-over-cover {
+    background: transparent;
+    border-bottom-color: transparent;
+}
+
+.project-detail-header .project-detail-tag,
+.project-detail-header .nav-close-svg {
+    transition: color 0.45s var(--ease-soft), stroke 0.45s var(--ease-soft);
+}
+
+.project-detail-header.is-over-cover .project-detail-tag {
+    color: #FFFFFF;
+}
+
+.project-detail-header.is-over-cover .nav-close-svg {
+    stroke: #FFFFFF;
+}
+
+.project-detail-tag {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-primary);
+}
+
+.project-detail-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--text-primary);
+    transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+.project-detail-close:hover {
+    opacity: 0.7;
+    transform: rotate(180deg);
+}
+
+/* 12-column grid (shared by every row of the detail page) */
+.pd-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--pd-gap);
+    padding: 0 var(--pd-gutter);
+}
+
+/* Cover — full-screen image or colour block above the title; JS moves the
+   media slower than the scroll so it eases away (parallax) */
+.pd-cover {
+    position: relative;
+    height: 100vh;
+    /* Slides under the sticky header so it can be transparent on top */
+    margin-top: calc(-1 * var(--nav-height));
+    overflow: hidden;
+}
+
+/* Soft dark veil at the top so the transparent header's white text stays
+   legible over any cover */
+.pd-cover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 160px;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.32), rgba(0, 0, 0, 0));
+}
+
+.pd-cover-media {
+    position: absolute;
+    inset: 0;
+    background: #FF6A1F;
+    transform-origin: 50% 0;
+    will-change: transform;
+}
+
+/* Optional veil for busy covers: a very light white wash */
+.pd-cover.has-veil .pd-cover-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.18);
+    pointer-events: none;
+}
+
+.pd-cover-media .pd-media {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-fit: cover;
+}
+
+/* Intro — title, metadata, description */
+.pd-intro {
+    position: relative;
+    z-index: 2; /* Its metadata column runs into the gallery area: keep it on top and clickable */
+    padding: clamp(80px, 12vh, 140px) 0 clamp(40px, 5vw, 64px);
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.9s var(--ease-out) 0.25s, transform 0.9s var(--ease-out) 0.25s;
+}
+
+.project-detail-overlay.active .pd-intro {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.pd-title {
+    font-family: var(--font-title);
+    grid-column: 5 / 11;
+    margin-bottom: 18px;
+    font-size: clamp(40px, 4.2vw, 72px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+/* Rule under the project title (same rule as "Selected projects", no drops) */
+.pd-rule {
+    grid-column: 5 / 13;
+    height: 0;
+    margin: 0 0 48px;
+    border: none;
+    border-top: 2px solid rgba(var(--ink-rgb), 0.3);
+}
+
+/* Recognition badge under the title (e.g. a museum exhibition) */
+.pd-award {
+    grid-column: 5 / 13;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: -24px 0 40px;
+    padding: 10px 18px 10px 14px;
+    border-radius: 22px; /* Still reads as a pill when it wraps on small screens */
+    background: #FF6A1F;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.pd-award[hidden] {
+    display: none;
+}
+
+.pd-award svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Medal badge on a landing card, always visible at the top left */
+.project-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 8px 10px;
+    border-radius: 100px;
+    background: #FF6A1F;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.project-badge svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.pd-meta {
+    grid-column: 1 / 4;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text-primary);
+}
+
+/* Desktop: the metadata column doesn't push the gallery down, so the first
+   image sits right after the first paragraph (the gallery starts on the right
+   columns, leaving the left side free for the metadata) */
+@media (min-width: 769px) {
+    .pd-meta {
+        grid-row: 1;
+        align-self: start;
+        height: 0;           /* Takes no height: the row is as tall as the paragraph */
+        overflow: visible;   /* …while the metadata still shows in its column */
+        position: relative;
+        z-index: 2;          /* Above the gallery rows, so its links stay clickable */
+    }
+
+    .pd-description {
+        grid-row: 1;
+    }
+}
+
+.pd-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pd-meta-item dt {
+    font-weight: 600;
+}
+
+.pd-meta-item dd {
+    white-space: pre-line;
+}
+
+.pd-visit-link {
+    display: inline-block;
+    margin-top: 28px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    /* Two underlines: an orange one on top that grows left → right on hover,
+       over the base black one */
+    background-image:
+        linear-gradient(#FF6A1F, #FF6A1F),
+        linear-gradient(currentColor, currentColor);
+    background-size: 0% 2px, 100% 2px;
+    background-position: 0 100%, 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 4px;
+    transition: background-size 0.7s var(--ease-soft);
+}
+
+.pd-visit-link:hover {
+    opacity: 1;
+    background-size: 100% 2px, 100% 2px;
+}
+
+.pd-visit-link[hidden] {
+    display: none;
+}
+
+.pd-description {
+    grid-column: 5 / 13;
+}
+
+/* Description paragraphs (max 5 lines each): the intro one and those spread
+   through the gallery share the same style */
+.pd-description p,
+.pd-text {
+    font-size: clamp(22px, 2.2vw, 36px);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
+
+/* Gallery — asymmetric rows of horizontal images, glued together */
+.pd-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 140px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s var(--ease-out) 0.4s, transform 0.9s var(--ease-out) 0.4s;
+}
+
+.project-detail-overlay.active .pd-gallery {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pd-gallery-row {
+    align-items: start;
+    column-gap: 0; /* Images touch side by side */
+}
+
+/* Paragraph beside a left image */
+.pd-text-cell {
+    align-self: center;
+    padding: clamp(24px, 3vw, 48px) 0;
+}
+
+/* Paragraph on its own row, under the images */
+.pd-text-row .pd-text-cell {
+    padding: clamp(48px, 6vw, 96px) 0;
+}
+
+.pd-figure {
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Images that keep their own proportions (e.g. a vertical poster) */
+.pd-figure--natural .pd-media {
+    aspect-ratio: auto;
+    object-fit: contain;
+}
+
+.pd-media {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--pd-media-ratio);
+    object-fit: cover;
+}
+
+.pd-gallery-placeholder {
+    margin: 0 var(--pd-gutter);
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+/* Next Project — orange band, white text. Two boxes in one link:
+   label + name on the left, arrow on the right edge (same gutters as the
+   rest of the page), vertically aligned with the project name */
+.pd-next {
+    background: #FF6A1F;
+    color: #FFFFFF;
+    padding: 60px 0 80px;
+}
+
+.pd-next-link {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 0 var(--pd-gutter);
+    color: #FFFFFF;
+    /* Shared size: the name and the arrow box scale together */
+    font-size: clamp(48px, 7vw, 120px);
+}
+
+.pd-next-link:hover {
+    opacity: 1;
+}
+
+.pd-next-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.pd-next-label {
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    color: #FFFFFF;
+}
+
+.pd-next-name {
+    font-family: var(--font-title);
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+}
+
+/* Arrow box: one name line tall, so the arrow centres on the name */
+.pd-next-arrow-box {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 0.95em;
+    flex-shrink: 0;
+}
+
+.pd-next-arrow {
+    width: 0.6em;
+    height: 0.6em;
+    transition: transform 0.5s var(--ease-out);
+}
+
+.pd-next-link:hover .pd-next-arrow {
+    transform: translateX(0.12em);
+}
+
+@media (max-width: 1024px) {
+    .project-detail-panel {
+        --pd-gutter: 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-detail-panel {
+        --pd-gutter: 20px;
+        --pd-gap: 12px;
+    }
+
+    .pd-intro {
+        padding: 60px 0 60px;
+    }
+
+    .pd-cover {
+        height: 70vh;
+    }
+
+    .pd-title,
+    .pd-rule,
+    .pd-meta,
+    .pd-description,
+    .pd-figure,
+    .pd-text-cell,
+    .pd-next-thumb,
+    .pd-next-text {
+        grid-column: 1 / -1 !important;
+    }
+
+    .pd-text-cell,
+    .pd-text-row .pd-text-cell {
+        padding: 32px 0;
+    }
+
+    .pd-title {
+        margin-bottom: 32px;
+    }
+
+    .pd-meta {
+        margin-bottom: 40px;
+    }
+
+    .pd-meta-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px 32px;
+    }
+
+    .pd-gallery {
+        padding-bottom: 80px;
+    }
+
+    .pd-next {
+        padding: 40px 0 80px;
+    }
+
+}
+
+/* Add cursor pointer to clickable project icons */
+.project-icon-wrapper {
+    cursor: pointer;
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out), box-shadow 0.3s ease;
+}
+
+/* ─── Hover GIF Effect ─────────────────────────────────────── */
+.project-icon-wrapper.has-hover-gif {
+    position: relative;
+}
+
+.project-icon-wrapper.has-hover-gif .project-img-static,
+.project-icon-wrapper.has-hover-gif .project-img-gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.project-icon-wrapper.has-hover-gif .project-img-static {
+    opacity: 1;
+    z-index: 2;
+}
+
+.project-icon-wrapper.has-hover-gif .project-img-gif {
+    opacity: 0;
+    z-index: 1;
+}
+
+.project-icon-wrapper.has-hover-gif:hover .project-img-static {
+    opacity: 0;
+}
+
+.project-icon-wrapper.has-hover-gif:hover .project-img-gif {
+    opacity: 1;
+}
+
+/* ─── Hover Video Effect ───────────────────────────────────── */
+.project-icon-wrapper.has-hover-video {
+    position: relative;
+}
+
+.project-icon-wrapper.has-hover-video .project-img-static,
+.project-icon-wrapper.has-hover-video .project-video-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.project-icon-wrapper.has-hover-video .project-img-static {
+    opacity: 1;
+    z-index: 2;
+}
+
+.project-icon-wrapper.has-hover-video .project-video-hover {
+    opacity: 0;
+    z-index: 1;
+}
+
+.project-icon-wrapper:hover {
+    transform: scale(1.03) !important;
+}
+
+/* All projects — larger project visual */
+#hoffie-visual .project-icon-wrapper,
+#shift-visual .project-icon-wrapper,
+#becher-visual .project-icon-wrapper,
+#cesida-visual .project-icon-wrapper,
+#nordika-visual .project-icon-wrapper,
+#liminal-visual .project-icon-wrapper,
+#personal-visual .project-icon-wrapper {
+    width: 100%;
+    height: auto;
+}
+
+/* ─── See All Works ────────────────────────────────────────── */
+.see-all-works {
+    background: var(--bg-dark);
+    padding: 80px 32px;
+    position: relative;
+    z-index: 10;
+    border-top: 1px solid var(--border);
+}
+
+.see-all-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 40px 0;
+    transition: opacity 0.3s ease;
+}
+
+.see-all-link:hover {
+    opacity: 0.7;
+}
+
+.see-all-text {
+    font-size: clamp(36px, 5vw, 72px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.see-all-works.visible .see-all-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.see-all-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s var(--ease-out) 0.1s, transform 0.6s var(--ease-out) 0.1s;
+}
+
+.see-all-works.visible .see-all-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.see-all-link:hover .see-all-arrow {
+    transform: translateX(10px);
+}
+
+/* ─── Footer ───────────────────────────────────────────────── */
+.footer {
+    background: var(--bg-dark);
+    position: relative;
+    z-index: 10;
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 32px;
+    padding: 40px 32px 24px;
+}
+
+/* Brand column: orange logo mark above "Portfolio 2026", left aligned */
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.footer-logo-mark {
+    width: 34px;
+    height: auto;
+    fill: #FF6A1F;
+}
+
+.footer-logo {
+    font-family: 'Fraunces Regular', var(--font-title); /* Heavier cut for the brand */
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.footer-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500; /* Helvetica Medium */
+    color: var(--text-label);
+    margin-bottom: 12px;
+}
+
+.footer-link {
+    position: relative;
+    display: block;
+    width: fit-content;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--text-primary);
+    transition: transform 0.4s var(--ease-out), color 0.3s ease;
+}
+
+/* Same hover as the nav menu: the circle appears on the left and the word
+   nudges right */
+.footer-link::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    width: 0.55em;
+    height: 0.55em;
+    transform: translateY(-50%);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='7.5' fill='none' stroke='%23000000' stroke-width='2.5'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.footer-link:hover {
+    opacity: 1;
+    transform: translateX(8px);
+}
+
+.footer-link:hover::before {
+    opacity: 1;
+}
+
+.footer-watermark {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dome: drawn by JS (gradient + glow + dot waves clipped to its shape) */
+.footer-dome {
+    display: block;
+    width: 100%;
+    height: clamp(150px, 22vw, 360px);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s var(--ease-out), transform 1.2s var(--ease-soft);
+}
+
+.footer.visible .footer-dome {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─── Body Lock (when menu is open) ────────────────────────── */
+body.menu-open {
+    overflow: hidden;
+}
+
+/* ─── Scroll Animations (fade in elements) ─────────────────── */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─── Responsive ───────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .hero-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 48px;
+    }
+
+    .hero-right {
+        max-width: 100%;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .intro-video {
+        width: 140%;
+        height: 140%;
+    }
+
+    .navbar {
+        padding: 0 16px;
+        width: clamp(280px, 92vw, 460px);
+        height: 44px;
+        top: 14px;
+    }
+
+    .hero {
+        padding: var(--nav-height) 20px;
+    }
+
+    .hero-title {
+        font-size: clamp(38px, 10.5vw, 64px);
+    }
+
+    /* Mobile: no horizontal scroll, projects stack in a normal vertical list */
+    .projects-rail {
+        display: none;
+    }
+
+    .projects {
+        height: auto !important;
+    }
+
+    .projects-pin {
+        position: relative;
+        height: auto;
+        overflow: visible;
+        display: block;
+        transform: none !important;
+    }
+
+    .projects-track {
+        width: auto;
+        padding: calc(var(--nav-height) + 32px) 20px 64px;
+        transform: none !important;
+    }
+
+    .projects-row {
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .project-card {
+        width: 100%;
+    }
+
+    .see-all-works {
+        padding: 60px 20px;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+        gap: 32px;
+    }
+
+
+    /* Dropdown follows the narrower nav pill on mobile */
+    .menu-overlay {
+        top: calc(14px + 44px + 8px);
+        width: clamp(280px, 92vw, 460px);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-line {
+        font-size: clamp(50px, 16vw, 100px);
+    }
+
+}
+
+/* ─── Selection ────────────────────────────────────────────── */
+::selection {
+    background: rgba(var(--ink-rgb), 0.12);
+    color: var(--text-primary);
+}
+
+/* ─── Custom Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(var(--ink-rgb), 0.15);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--ink-rgb), 0.25);
+}
+
+/* ─── Archive card — Mist ──────────────────────────────────── */
+/* WebGL mist (assets/js/archive-mist.js). The gradient is the still
+   fallback when WebGL isn't available. */
+.archive-mist-card {
+    background: linear-gradient(146deg, #FF6701 0%, #FF6701 46%, #FF4000 52%, #FFB48A 58%, #FFD7B8 70%);
+}
+

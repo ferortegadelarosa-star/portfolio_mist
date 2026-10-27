@@ -1,0 +1,51 @@
+/* Fraunces 72pt Soft — the site's only typeface.
+   Light is used for everything: it covers the whole weight scale, so any
+   font-weight in the CSS renders Light, with no synthetic bold.
+   Italics use Light Italic at any weight.
+
+   ExtraLight (for very specific cases) is prepared below but commented out:
+   the files aren't in this folder yet. To enable it:
+     1. Add Fraunces72ptSoft-ExtraLight.woff2 / .woff here.
+     2. Uncomment the ExtraLight block and change Light's range to 250 1000.
+     3. Use font-weight: 200 on the elements that should be ExtraLight. */
+
+@font-face {
+    font-family: 'Fraunces';
+    src: url('Fraunces72ptSoft-Light.woff2') format('woff2'),
+        url('Fraunces72ptSoft-Light.woff') format('woff');
+    font-weight: 100 1000;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fraunces';
+    src: url('Fraunces72ptSoft-LightItalic.woff2') format('woff2'),
+        url('Fraunces72ptSoft-LightItalic.woff') format('woff');
+    font-weight: 100 1000;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Regular, as a separate family so it never replaces Light elsewhere.
+   Used only where named explicitly (hero "Portfolio 2026"). It has no italic
+   file, so italics are synthesized by the browser. */
+@font-face {
+    font-family: 'Fraunces Regular';
+    src: url('Fraunces72ptSoft-Regular.woff2') format('woff2'),
+        url('Fraunces72ptSoft-Regular.woff') format('woff');
+    font-weight: 100 1000;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*
+@font-face {
+    font-family: 'Fraunces';
+    src: url('Fraunces72ptSoft-ExtraLight.woff2') format('woff2'),
+        url('Fraunces72ptSoft-ExtraLight.woff') format('woff');
+    font-weight: 100 249;
+    font-style: normal;
+    font-display: swap;
+}
+*/
