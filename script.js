@@ -294,12 +294,13 @@ document.addEventListener('DOMContentLoaded', () => {
             context: 'Freelance project',
             description: 'A web design project focused on creating an attractive and intuitive digital presence for a dental clinic located in Madrid, Spain. The design combines a modern aesthetic with clear navigation, conveying trust and professionalism at first glance. The content management system was custom-built using HTML, CSS and JavaScript, allowing the team to manage content independently.',
             link: 'https://clinicadentcob.com/index.html',
-            cover: 'assets/img/dentcob/monitor_video_28s.mp4',
+            cover: 'assets/img/dentcob/monitor_fullscreen.mp4',
             coverVeil: true, // Light white veil to calm the busy footage
             thumb: 'assets/img/dentcob/Mockupdentcob.jpg',
             tools: ['Google Antigravity', 'VSCode', 'Claude Code', 'Diseño de Prompts'],
             images: [
-                'assets/img/dentcob/dentcob.mp4'
+                'assets/img/dentcob/monitor_video_28s.mp4?v=3',
+                { paragraph: true }    // intro paragraph — monitor video — paragraph
             ]
         },
         personal: {
@@ -384,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper: create a media element (image or video)
     function createMediaElement(src, alt) {
-        const isVideo = /\.(mp4|webm|mov)$/i.test(src);
+        const isVideo = /\.(mp4|webm|mov)(\?.*)?$/i.test(src);
         let el;
 
         if (isVideo) {
